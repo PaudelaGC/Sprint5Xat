@@ -1,0 +1,31 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module",
+      "project": "./tsconfig.eslint.json"
+    },
+    "plugins": ["@typescript-eslint", "prettier"],
+    "rules": {
+          "semi": ["error", "never"], // Enforces no semicolons
+          "quotes": ["error", "single"], // Enforces single quotes
+          "indent": ["error", 2], // Enforces 2-space indentation
+          "no-unused-vars": "error", // Reports unused variables
+          "prettier/prettier": [
+            "error",
+            {
+              "endOfLine": "auto"
+            }
+          ]
+        }
+  }
+  
