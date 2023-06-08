@@ -10,7 +10,6 @@ export const checkUsername = async (
     const existingUser: IUser | null = await User.findOne({ username })
 
     if (existingUser) {
-      console.log('User already exists:', existingUser)
       callback(true)
     } else {
       callback(false)

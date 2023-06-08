@@ -1,31 +1,59 @@
-import { io } from 'socket.io-client'
-import { useEffect, useState } from 'react'
-import AuthForm from './AuthForm.tsx'
-
-const socket = io('http://localhost:3001')
+import socket from './socket.tsx';
+import { useEffect, useState } from 'react';
+import AuthForm from './AuthForm.tsx';
+import './App.css';
 
 interface MessageData {
-  _id: string
-  username: string
-  content: string
-  timestamp: string
+  _id: string;
+  username: string;
+  content: string;
+  timestamp: string;
+  socketId: string;
+  position: string;
 }
 
 function App() {
-  const [authenticated, setAuthenticated] = useState(false)
-  const [message, setMessage] = useState('')
-  const [chatLog, setChatLog] = useState<MessageData[]>([])
-  
+  const [authenticated, setAuthenticated] = useState(false);
+  const [message, setMessage] = useState('');
+  const [chatLog, setChatLog] = useState<MessageData[]>([]);
 
   const sendMessage = () => {
-    const username = 'default'
-    socket.emit('send_message', { username, message })
+    socket.emit('send_message', { message });
+    setMessage(''); // Clear the message input field after sending
   };
 
   useEffect(() => {
-    socket.on('receive_message', (data) => {
-      setChatLog((prevChatLog) => [...prevChatLog, data])
+    socket.on('receive_message', (data: MessageData) => {
+      if (data.socketId === socket.id) {
+        setChatLog((prevChatLog) => [...prevChatLog, { ...data, position: 'right' }]);
+      } else {
+        setChatLog((prevChatLog) => [...prevChatLog, { ...data, position: 'left' }]);
+      }
     });
+  
+    return () => {
+      socket.off('receive_message');
+    };
+  }, []);
+  
+
+  const initialLoadHandler = (messages: MessageData[], username: string) => {
+    const updatedChatLog = messages.map((message) => {
+      return {
+        ...message,
+        position: message.username === username ? 'right' : 'left',
+      };
+    });
+
+    setChatLog(updatedChatLog);
+  };
+
+  useEffect(() => {
+    socket.on('initialLoad', initialLoadHandler);
+
+    return () => {
+      socket.off('initialLoad', initialLoadHandler);
+    };
   }, []);
 
   return (
@@ -36,8 +64,14 @@ function App() {
         <div>
           <div className="chat-log">
             {chatLog.map((messageData) => (
-              <div key={messageData._id}>
-                <strong>{messageData.username}:</strong> {messageData.content} [<span className="timestamp">{messageData.timestamp}</span>]
+              <div
+                key={messageData._id}
+                className={`message-container ${messageData.position}`}
+              >
+                <div className="message">
+                  <strong>{messageData.username}:</strong> {messageData.content} [
+                  <span className="timestamp">{messageData.timestamp}</span>]
+                </div>
               </div>
             ))}
           </div>
@@ -55,4 +89,6 @@ function App() {
   );
 }
 
-export default App
+export default App;
+
+

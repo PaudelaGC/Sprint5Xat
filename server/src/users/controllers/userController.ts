@@ -1,9 +1,13 @@
 import bcrypt from 'bcrypt'
 import User, { IUser } from '../models/User'
+import { Socket } from 'socket.io'
+import { createConnection } from '../../backend/controllers/connectionController'
+import initialLoadController from '../../messages/controllers/messageLoadingController'
 
 export const createUser = async (
   data: { username: string; password: string; id: string },
-  callback: (response: boolean) => typeof response
+  callback: (response: { success: boolean }) => typeof response,
+  socket: Socket
 ) => {
   const { username, password, id } = data
 
@@ -12,7 +16,7 @@ export const createUser = async (
     const existingUser: IUser | null = await User.findOne({ username })
 
     if (existingUser) {
-      console.log('User already exists:', existingUser)
+      callback({ success: false })
       return
     }
 
@@ -26,9 +30,15 @@ export const createUser = async (
     // Create a new user with the hashed password
     const user = new User({ username, password: hashedPassword, id })
     await user.save()
-    console.log(`User connected: ${id}`)
-    callback(true)
+
+    // Store the connection in the "connections" collection
+    createConnection(socket.id, user.id)
+
+    console.log(`User connected: ${username}`)
+    initialLoadController(socket)
+    callback({ success: true })
   } catch (error) {
-    callback(false)
+    console.error('Error creating user:', error)
+    callback({ success: false })
   }
 }

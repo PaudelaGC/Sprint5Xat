@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
-import { io } from 'socket.io-client'
+import socket from './socket.tsx'
 import { v4 as uuidv4 } from 'uuid'
-
-const socket = io('http://localhost:3001')
-
 interface AuthFormProps {
   setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -34,57 +31,43 @@ const AuthForm: React.FC<AuthFormProps> = ({ setAuthenticated }) => {
     try {
       if (isSignUp) {
         // Check if the username already exists
-        socket.emit(
-          'check_username',
-          { username },
-          (response: { exists: boolean }) => {
-            if (response.exists) {
-              alert('Username already exists')
-              return
-            }
+        socket.emit('check_username', { username }, (response: boolean) => {
+          if (response) {
+            alert('Username already exists')
+            return
           }
-        )
-        // Create a new user using socket.io
-        socket.emit(
-          'create_user',
-          { username, password, id },
-          (response: boolean) => {
-            if (response) {
+
+          // Create a new user using socket.io
+          socket.emit('create_user', { username, password, id }, ({ success }: { success: boolean }) => {
+            if (success) {
               console.log('Signed up as:', username) // Log the username
               setAuthenticated(true)
             } else {
               console.error('Error creating user')
               // Handle the error
             }
-          }
-        )
+          })
+        })
       } else {
         // Log In functionality
         // Check if the username exists
-        socket.emit(
-          'check_username',
-          { username },
-          (response: boolean) => {
-            if (!response) {
-              alert('Username does not exist')
-              return
-            }
+        socket.emit('check_username', { username }, (response: boolean) => {
+          if (!response) {
+            alert('Username does not exist')
+            return
           }
-        )
-        // Check if password matches
-        socket.emit(
-          'check_password',
-          { username, password },
-          (passwordResponse: boolean) => {
-            if (passwordResponse) {
-              console.log('Logged as:', username) // Log the username
+
+          // Check if password matches
+          socket.emit('check_password', { username, password }, ({ success }: { success: boolean }) => {
+            if (success) {
+              console.log('Logged in as:', username) // Log the username
               setAuthenticated(true)
             } else {
               alert('Password is not valid')
               return
             }
-          }
-        )
+          })
+        })
       }
     } catch (error) {
       console.error('Error:', error)
@@ -106,11 +89,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ setAuthenticated }) => {
         <br />
         <label>
           Password:
-          <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
+          <input type="password" value={password} onChange={handlePasswordChange} />
         </label>
         <br />
         <button type="submit">{isSignUp ? 'Sign Up' : 'Log In'}</button>
@@ -123,3 +102,4 @@ const AuthForm: React.FC<AuthFormProps> = ({ setAuthenticated }) => {
 }
 
 export default AuthForm
+
