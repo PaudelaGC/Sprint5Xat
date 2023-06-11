@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start:server": "nodemon server/src/index.ts",
-    "start:client": "cd client && npm start",
-    "start": "npm run start:server & npm run start:client"
+    "start": "npm run start:server"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -19,11 +18,11 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongodb": "^5.5.0",
-    "mongoose": "^7.2.0",
+    "mongoose": "^7.2.2",
     "nodemon": "^2.0.22",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.0",
+    "react-scripts": "^4.0.3",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
     "uuid": "^9.0.0",
@@ -45,7 +44,8 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
     "prettier": "^2.8.8",
-    "typescript": "^5.0.4"
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
   },
   "eslintConfig": {
     "extends": [
@@ -64,13 +64,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "noImplicitAny": false,
-    "sourceMap": true,
-    "outDir": "scripts/"
   },
   "exclude": [
     "node_modules"

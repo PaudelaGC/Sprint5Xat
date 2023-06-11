@@ -2,6 +2,23 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  max-height: 70vh;
+  overflow-y: auto;
+  justify-content: flex-start;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.container {
+  display: flex;
 }
 
 .message-container {
@@ -14,18 +31,45 @@
   align-items: flex-end;
 }
 
+.message-container.center {
+  align-items: center;
+}
+
+.message-container.left {
+  justify-content: flex-start;
+}
+
 .message {
   background-color: #f2f2f2;
   padding: 10px;
   border-radius: 5px;
 }
 
-.input-area {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
+.message.system {
+  text-align: center;
+  color: gray;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 
 .timestamp {
   color: gray;
 }
+
+.input-area {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.user-list {
+  width: 200px;
+  margin-left: 20px;
+}
+
+.delete-button {
+  background-color: red;
+  /* Add any other desired styling for the Delete button */
+}
+

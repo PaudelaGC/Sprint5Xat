@@ -24,24 +24,22 @@
     /* Other Options */
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "baseUrl": "src",
+    "baseUrl": "./",
     "outDir": "dist",
     "rootDir": ".",
     "sourceMap": true,
     "jsx": "react-jsx",
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
+    "noEmit": true
   },
   "include": [
-    "server/src/index.ts",
-    "server/src/users/models/User.ts",
-    "server/src/messages/controllers/messageController.ts",
-    "client/src/index.tsx",
-    "client/src/reportWebVitals.tsx",
-    "client/src/components/App.tsx",
-    "client/src/components/AuthForm.tsx"
+    "client/src/**/*.ts",
+    "client/src/**/*.tsx",
+    "server/src/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
+
 
 

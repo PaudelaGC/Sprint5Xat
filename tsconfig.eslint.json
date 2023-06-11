@@ -1,47 +1,13 @@
 {
-    "compilerOptions": {
-      /* Projects */
-      "target": "es2019",
-      "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string", "dom"],
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      
-      /* Strict Type-Checking */
-      "strict": true,
-      "strictNullChecks": true,
-      "strictFunctionTypes": true,
-      "strictBindCallApply": true,
-      "strictPropertyInitialization": true,
-      
-      /* Linting and Formatting */
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "noImplicitReturns": true,
-      "noFallthroughCasesInSwitch": true,
-      
-      /* Other Options */
-      "skipLibCheck": true,
-      "resolveJsonModule": true,
-      "baseUrl": "src",
-      "outDir": "dist",
-      "rootDir": ".",
-      "sourceMap": true,
-      "jsx": "react-jsx",
-      "noEmit": true,
-      "allowImportingTsExtensions": true,
-    },
-    "include": [
-      "server/src/index.ts",
-      "server/src/User.ts",
-      "server/controllers/messageController.ts",
-      "client/src/index.tsx",
-      "client/src/reportWebVitals.tsx",
-      "client/src/components/App.tsx",
-      "client/src/components/AuthForm.tsx",
-      "./server/**/*.ts"
-    ],
-    "extends": "./tsconfig.json",
-    "exclude": ["node_modules"]
-  }
+  "extends": "./tsconfig.json",
+  "include": [
+    "server/src/index.ts",
+    "server/src/User.ts",
+    "server/controllers/messageController.ts",
+    "client/src/index.tsx",
+    "client/src/reportWebVitals.tsx",
+    "client/src/components/App.tsx",
+    "client/src/components/AuthForm.tsx",
+    "./server/**/*.ts"
+  ]
+}

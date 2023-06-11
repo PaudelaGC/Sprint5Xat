@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import socket from './socket.tsx'
 import { v4 as uuidv4 } from 'uuid'
+import './App.css'
+
 interface AuthFormProps {
   setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -8,17 +10,18 @@ interface AuthFormProps {
 const AuthForm: React.FC<AuthFormProps> = ({ setAuthenticated }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [isSignUp, setIsSignUp] = useState(true) // New state to track if it's Sign Up or Log In
+  const [action, setAction] = useState('')
 
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value)
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    if (name === 'username') {
+      setUsername(value)
+    } else if (name === 'password') {
+      setPassword(value)
+    }
   }
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
-  }
-
-  const handleFormSubmit = async (event: React.FormEvent) => {
+  const handleAction = async (event: React.FormEvent) => {
     event.preventDefault()
 
     if (!username || !password) {
@@ -26,10 +29,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ setAuthenticated }) => {
       return
     }
 
-    const id = uuidv4() // Generate a unique ID using uuidv4()
+    if (action === 'signup') {
+      // Handle sign up logic
+      const id = uuidv4()
 
-    try {
-      if (isSignUp) {
+      try {
         // Check if the username already exists
         socket.emit('check_username', { username }, (response: boolean) => {
           if (response) {
@@ -40,7 +44,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ setAuthenticated }) => {
           // Create a new user using socket.io
           socket.emit('create_user', { username, password, id }, ({ success }: { success: boolean }) => {
             if (success) {
-              console.log('Signed up as:', username) // Log the username
+              console.log('Signed up as:', username)
               setAuthenticated(true)
             } else {
               console.error('Error creating user')
@@ -48,8 +52,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ setAuthenticated }) => {
             }
           })
         })
-      } else {
-        // Log In functionality
+      } catch (error) {
+        console.error('Error:', error)
+      }
+    } else if (action === 'login') {
+      // Handle log in logic
+      try {
         // Check if the username exists
         socket.emit('check_username', { username }, (response: boolean) => {
           if (!response) {
@@ -58,48 +66,81 @@ const AuthForm: React.FC<AuthFormProps> = ({ setAuthenticated }) => {
           }
 
           // Check if password matches
-          socket.emit('check_password', { username, password }, ({ success }: { success: boolean }) => {
+          socket.emit('check_password', { username, password, purpose: 'login' }, ({ success, reason }: { success: boolean, reason?: string }) => {
             if (success) {
-              console.log('Logged in as:', username) // Log the username
+              console.log('Logged in as:', username)
               setAuthenticated(true)
             } else {
-              alert('Password is not valid')
+              alert(reason)
               return
             }
           })
         })
+      } catch (error) {
+        console.error('Error:', error)
       }
-    } catch (error) {
-      console.error('Error:', error)
+    } else if (action === 'delete') {
+      // Check if the username exists
+      socket.emit('check_username', { username }, (response: boolean) => {
+        if (!response) {
+          alert('Username does not exist')
+          return
+        }
+  
+        // Check if password matches
+        socket.emit('check_password', { username, password, purpose: 'delete' }, ({ success, reason }: { success: boolean, reason?: string }) => {
+          if (success) {
+            // Password is correct, proceed with account deletion
+            const confirmDelete = prompt('To delete your account, please enter your password:')
+            if (confirmDelete !== password) {
+              alert('Incorrect password. Account deletion cancelled.')
+              return
+            }
+            // Delete user account
+            socket.emit('delete_account', { username }, ({ success }: { success: boolean }) => {
+              if (success) {
+                console.log('Account deleted:', username)
+                // Update UI or perform other actions upon successful deletion
+              } else {
+                console.error('Error deleting account')
+                // Handle the error
+              }
+            })
+          } else {
+            alert(reason)
+            return
+          }
+        })
+      })
     }
-  }
-
-  const toggleSignUp = () => {
-    setIsSignUp(!isSignUp)
   }
 
   return (
     <div>
-      <h2>{isSignUp ? 'Sign Up' : 'Log In'}</h2>
-      <form onSubmit={handleFormSubmit}>
+      <h2>Log In / Sign Up</h2>
+      <form onSubmit={handleAction}>
         <label>
           Username:
-          <input type="text" value={username} onChange={handleUsernameChange} />
+          <input type="text" name="username" value={username} onChange={handleInputChange} />
         </label>
         <br />
         <label>
           Password:
-          <input type="password" value={password} onChange={handlePasswordChange} />
+          <input type="password" name="password" value={password} onChange={handleInputChange} />
         </label>
         <br />
-        <button type="submit">{isSignUp ? 'Sign Up' : 'Log In'}</button>
+        <button type="submit" onClick={() => setAction('signup')}>
+          Sign Up
+        </button>
+        <button type="submit" onClick={() => setAction('login')}>
+          Log In
+        </button>
+        <button className="delete-button" type="submit" onClick={() => setAction('delete')}>
+          Delete Account
+        </button>
       </form>
-      <button onClick={toggleSignUp}>
-        {isSignUp ? 'Log In with existing account' : 'Create new account'}
-      </button>
     </div>
   )
 }
 
 export default AuthForm
-

@@ -6,7 +6,7 @@ interface IUser extends Document {
   id: string
 }
 
-const userSchema = new Schema(
+const userSchema: Schema<IUser> = new Schema<IUser>(
   {
     username: { type: String, required: true },
     password: { type: String, required: true },
