@@ -23,7 +23,7 @@ function App() {
   const sendMessage = () => {
     if (message.trim() !== '') {
       socket.emit('send_message', { message })
-      setMessage('') // Clear the message input field after sending
+      setMessage('') 
     }
   }
 
@@ -34,7 +34,7 @@ function App() {
   }
 
   useEffect(() => {
-    // Handle received messages
+    
     socket.on('receive_message', (data: MessageData) => {
       if (data.socketId === socket.id) {
         setChatLog((prevChatLog) => [...prevChatLog, { ...data, position: 'right' }])
@@ -49,7 +49,7 @@ function App() {
   }, [])
 
   const initialLoadHandler = (messages: MessageData[], username: string) => {
-    // Prepare chat log with position based on username
+    
     const updatedChatLog = messages.map((message) => {
       return {
         ...message,
@@ -61,7 +61,7 @@ function App() {
   }
 
   useEffect(() => {
-    // Load initial chat log
+    
     socket.on('initialLoad', initialLoadHandler)
 
     return () => {
@@ -70,18 +70,18 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // Handle connection messages
+    
     socket.on('connection_message', (data: MessageData) => {
       setChatLog((prevChatLog) => [...prevChatLog, { ...data, position: 'center' }])
     })
   
-    // Handle chat log update after user account deletion
+    
     socket.on('request_update_after_delete', (messages: MessageData[]) => {
       socket.emit('update_chatlog_request', socket.id, messages)
       socket.on('update_chatlog', initialLoadHandler)
     })
   
-    // Scroll chat log to bottom
+    
     if (chatLogRef.current) {
       chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight
     }
@@ -93,7 +93,7 @@ function App() {
   }, [chatLog])
 
   useEffect(() => {
-    // Update user list
+    
     socket.on('user_list', (users: string[]) => {
       setUserList(users)
     })
@@ -106,7 +106,7 @@ function App() {
   return (
     <div className="App">
       {!authenticated ? (
-        // Render authentication form
+        
         <AuthForm setAuthenticated={setAuthenticated} />
       ) : (
         <div className="container">

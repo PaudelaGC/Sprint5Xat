@@ -5,13 +5,8 @@ export const emitConnectionMessage = async (
   socket: Socket,
   action?: string
 ) => {
-  // Find the connection associated with the socket
   const connection = await Connection.findOne({ socketId: socket.id })
-  // This is a failsafe in case the above does not connect properly
   const connection2 = await Connection.findOne({ socketId: socket.id })
-  // This allows to access the function when joining the chat, and also when leaving the chat,
-  // but in this last case we iterate twice so we can use this code before and after the
-  // connection is removed from the database
   if (action !== 'left') {
     const connections = await Connection.find()
     const userList = connections.map((conn) => conn.username)

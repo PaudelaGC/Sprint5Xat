@@ -1,7 +1,8 @@
 import { Socket } from 'socket.io'
 import { createConnection } from '../../backend/controllers/connectionController'
-import initialLoadController from '../../messages/controllers/messageLoadingController'
+import initialLoadController from '../../messages/controllers/firstLoadController'
 import { emitConnectionMessage } from '../../messages/controllers/connectionMessageController'
+import { getConnectedUsers } from '../../backend/controllers/getConnectedUsersController'
 
 export const handleConnectionAndMessages = (
   socket: Socket,
@@ -11,4 +12,5 @@ export const handleConnectionAndMessages = (
   createConnection(socket.id, userId, username)
   emitConnectionMessage(socket, 'joined')
   initialLoadController(socket)
+  getConnectedUsers(socket)
 }

@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt'
 import User, { IUser } from '../models/User'
 import { Socket } from 'socket.io'
-import { checkIfUsernameExists } from '../logic/userSearchLogic'
-import { handleConnectionAndMessages } from '../logic/connectionMessageLogic'
+import { checkIfUsernameExists } from './userSearchController'
+import { handleConnectionAndMessages } from './handleConnectionAndMessages'
 import Connection from '../../backend/models/Connection'
 
 export const checkPassword = async (
@@ -16,7 +16,6 @@ export const checkPassword = async (
   const { username, password, purpose } = data
 
   try {
-    // Check if user exists
     const usernameExists: boolean = await checkIfUsernameExists(username)
 
     if (!usernameExists) {
@@ -24,7 +23,6 @@ export const checkPassword = async (
       return
     }
 
-    // Retrieve the user
     const existingUser: IUser | null = await User.findOne({ username })
 
     if (!existingUser) {
@@ -33,7 +31,6 @@ export const checkPassword = async (
     }
 
     if (purpose === 'login') {
-      // Check if the user is already logged in
       const existingConnection = await Connection.findOne({
         userId: existingUser.id,
       })
@@ -48,7 +45,6 @@ export const checkPassword = async (
       )
 
       if (passwordMatch) {
-        // Handle connection and messages for login purpose
         handleConnectionAndMessages(
           socket,
           existingUser.id,
@@ -60,7 +56,6 @@ export const checkPassword = async (
         callback({ success: false, reason: 'Password does not match' })
       }
     } else if (purpose === 'delete') {
-      // Check if the user is already connected
       const existingConnection = await Connection.findOne({
         userId: existingUser.id,
       })

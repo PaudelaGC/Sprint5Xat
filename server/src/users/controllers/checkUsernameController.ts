@@ -16,6 +16,6 @@ export const checkUsername = async (
     }
   } catch (error) {
     console.error('Error checking username:', error)
-    callback(false) // Assuming server error means username doesn't exist
+    callback(false)
   }
 }
