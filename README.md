@@ -32,7 +32,6 @@ The project structure is organized as follows:
   - backend/               # Backend code
     - controllers/         # Controllers for handling requests
     - db/                  # Database related code
-      - models/            # Data models for the application
     - models/              # Data models for backend
   - messages/              # Message related code
     - controllers/         # Controllers for handling message requests
@@ -57,7 +56,7 @@ To run the chat application locally, follow these steps:
 
 1. Clone the repository:
 
-   gh repo clone PaudelaGC/Sprint5Xat
+gh repo clone PaudelaGC/Sprint5Xat
 
 2. Install dependencies for the client-side and server-side code:
 
