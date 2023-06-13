@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import AuthForm from './AuthForm.tsx'
 import './App.css'
 
+
+
 interface MessageData {
   _id: string
   username: string
@@ -105,12 +107,19 @@ function App() {
 
   return (
     <div className="App">
+      <video autoPlay loop muted playsInline id="background-video">
+        <source src="/videos/videoplayback.mp4" type="video/mp4" />
+        </video>
       {!authenticated ? (
         
         <AuthForm setAuthenticated={setAuthenticated} />
       ) : (
         <div className="container">
           <div className="chat-container">
+          <div className="video-wrapper">
+            <video playsInline autoPlay muted loop>
+              <source src="/videos/chatBackground.mp4" type="video/mp4"/>
+            </video>
             <div className="chat-log" ref={chatLogRef}>
               {chatLog.map((messageData) => (
                 <div
@@ -130,20 +139,20 @@ function App() {
                 </div>
               ))}
             </div>
+            </div>
             <div className="input-area">
-              <input
+              <input className="input-text"
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
               />
-              <button onClick={sendMessage}>Send</button>
+              <button className="button" onClick={sendMessage}>Send</button>
             </div>
           </div>
-          <div className="user-list">
-            <h2>Connected Users</h2>
+          <div className="user-list yellow-block">
+            <h2>Connected Users</h2>  
             <ul>
-              {/* Render user list */}
               {userList.map((user) => (
                 <li key={user}>{user}</li>
               ))}

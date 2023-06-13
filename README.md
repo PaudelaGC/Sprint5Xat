@@ -19,9 +19,10 @@ The project structure is organized as follows:
 - client/                  # Client-side code
   - build/                 # Compiled and bundled files (auto-generated)
   - node_modules/          # Client-side dependencies (ignored)
-  - public/                # Public assets and index.html (default from Create React App)
+  - public/                # Public assets and index.html. Contains videos and images applied to the client
   - src/                   # Source code for the client
     - components/          # React components
+    - fonts/               # Fonts applied to the client
     - index.tsx            # Entry point for the client-side application
     - reportWebVitals.tsx  # Performance measurement (default from Create React App)
   - .gitignore             # Git ignore file for the client-side code

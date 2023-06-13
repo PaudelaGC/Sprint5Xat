@@ -1,3 +1,46 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-size: 20px;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.video-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-left: 10px;
+  height: 100%;
+}
+
+.video-wrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+
 .chat-log {
   display: flex;
   flex-direction: column;
@@ -5,21 +48,30 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-  max-height: 70vh;
+  max-height: 90vh;
   overflow-y: auto;
   justify-content: flex-start;
+  width: 95%;
+  flex-grow: 1;
+  margin-top: 10px;
+  margin-left: 10px;
+  position: relative;
 }
+
 
 .chat-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
   flex-grow: 1;
+  width: 70%;
 }
 
 .container {
   display: flex;
+  flex-grow: 1;
 }
+
 
 .message-container {
   display: flex;
@@ -47,10 +99,35 @@
 
 .message.system {
   text-align: center;
-  color: gray;
-  background-color: transparent;
-  padding: 0;
-  border-radius: 0;
+  font-weight: bold;
+  animation: rainbow 0.3s linear infinite;
+}
+
+@keyframes rainbow {
+  0% {
+    color: red;
+  }
+  14% {
+    color: orange;
+  }
+  28% {
+    color: yellow;
+  }
+  42% {
+    color: green;
+  }
+  57% {
+    color: blue;
+  }
+  71% {
+    color: indigo;
+  }
+  85% {
+    color: violet;
+  }
+  100% {
+    color: red;
+  }
 }
 
 .timestamp {
@@ -61,15 +138,112 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  width: 70%;
+  height: 10%;
+  margin-left: 10px;
 }
 
 .user-list {
-  width: 200px;
   margin-left: 20px;
+  width: 20%;
+  text-align: center;
+  min-height: fit-content;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 15px;
+}
+
+.user-list ul {
+  list-style-type: none;
 }
 
 .delete-button {
   background-color: red;
-  /* Add any other desired styling for the Delete button */
+  font-family: 'MyFont', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: normal;
 }
+
+#background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.centered-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.centered-form .yellow-block {
+  padding: 20px;
+}
+
+.centered-form h2,
+.centered-form label {
+  color: black;
+}
+
+.centered-form .delete-button {
+  background-color: red;
+  color: white;
+  margin-top: 10px;
+}
+
+.centered-form .delete-button:hover {
+  background-color: darkred;
+}
+
+.centered-form ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.centered-form li {
+  margin-bottom: 5px;
+}
+
+.yellow-block {
+  background-image: url('../../public/images/block.png');
+  background-size: 100% 100%;
+}
+
+@font-face {
+  font-family: 'MyFont';
+  src: url('../fonts/PixelOperator.ttf') format('truetype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'MyFont';
+  src: url('../fonts/PixelOperator-Bold.ttf') format('truetype');
+  font-weight: bold;
+}
+
+body {
+  font-family: 'MyFont', sans-serif;
+}
+
+.button {
+  font-family: 'MyFont', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.input-text {
+  font-family: 'MyFont', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+
+
+
 
