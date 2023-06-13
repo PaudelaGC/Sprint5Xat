@@ -92,5 +92,12 @@ removed from the import. If this is performed, the client is unable to find the 
 modified to admit this condition, compatibility issues appear with the server-side configuration. By leaving it unchanged, the client allows
 the code to be executed even with the typescript error.
 
+3. If two users remain at the auth screen and one logs in/signs up succesfully, the connected user's list outside of the chat won't update
+properly until another log in / sign up is performed, but only for the user remaining in that screen. New users will see a proper version.
+
+4. When a user deletes it's account, it's messages are erased too, which provokes a real-time update to the chatlog for every connected user
+and displays a system message regarding this situation. This system message should remain in the chatlog, but sometimes it breafly shows up
+and then disappears.
+
 ## License
 This project is licensed under the MIT License.
