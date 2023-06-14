@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io'
 import { createConnection } from '../../backend/controllers/connectionController'
-import initialLoadController from '../../messages/controllers/firstLoadController'
+import initialLoadController from '../../messages/controllers/retrieveAllMessagesController'
 import { emitConnectionMessage } from '../../messages/controllers/connectionMessageController'
 import { getConnectedUsers } from '../../backend/controllers/getConnectedUsersController'
 

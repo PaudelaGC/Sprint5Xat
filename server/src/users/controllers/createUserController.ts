@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import User from '../models/User'
 import { Socket } from 'socket.io'
-import { checkIfUsernameExists } from './userSearchController'
+import { checkIfUsernameExists } from './findUserController'
 import { handleConnectionAndMessages } from './handleConnectionAndMessages'
 
 export const createUser = async (

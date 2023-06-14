@@ -9,8 +9,8 @@ import { checkPassword } from './users/controllers/checkPasswordController'
 import { removeConnection } from './backend/controllers/connectionController'
 import { emitConnectionMessage } from './messages/controllers/connectionMessageController'
 import connectDB from './backend/db/mongoose-connection'
-import { deleteAccount } from './users/controllers/deleteAccountController'
-import { updateChatlog } from './messages/controllers/chatlogUpdateController'
+import { deleteAccount } from './users/controllers/deleteUserController'
+import { updateChatlog } from './messages/controllers/updateAllMessagesController'
 import { getConnectedUsers } from './backend/controllers/getConnectedUsersController'
 
 const app = express()
