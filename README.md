@@ -61,20 +61,20 @@ gh repo clone PaudelaGC/Sprint5Xat
 
 2. Install dependencies for the client-side and server-side code:
 
-npm install (at root folder)
-cd client/
-npm install
+`npm install` (at root folder)
+`cd client/`
+`npm install`
 
-3. Build the client-side code: (optional)
+3. Build the client-side code: **(optional)**
 
-cd client/
-npm run build
+`cd client/`
+`npm run build`
 
 4. Start the server-side code and the client-side code:
 
-npm start (at root folder)
-cd client/
-npm start
+`npm start` (at root folder)
+`cd client/`
+`npm start`
 
 5. Access the chat application in your browser at http://localhost:3000.
 
@@ -98,6 +98,14 @@ properly until another log in / sign up is performed, but only for the user rema
 4. When a user deletes it's account, it's messages are erased too, which provokes a real-time update to the chatlog for every connected user
 and displays a system message regarding this situation. This system message should remain in the chatlog, but sometimes it breafly shows up
 and then disappears.
+
+5. At first, it was attempted to make this project with one npm configuration at root level to config both client and server folders.
+This was not possible due to conflicts with Create React App, which needs it's own npm configurations. At the end, I decided to leave
+the root level npm configurations to englobe both sides and also include a npm configuration inside the client folder so it can
+manage it's own configurations, which makes having another one at root level useless for this part and it could be moved inside the
+server folder, so each side has it's own configuration.
+
+6. Client-side code files need to be linted manually, as the current configuration does not run properly the linter to these files.
 
 ## License
 This project is licensed under the MIT License.
