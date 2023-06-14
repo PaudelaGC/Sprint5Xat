@@ -61,19 +61,19 @@ gh repo clone PaudelaGC/Sprint5Xat
 
 2. Install dependencies for the client-side and server-side code:
 
-`npm install` (at root folder)
-`cd client/`
+`npm install` (at root folder)  
+`cd client/`  
 `npm install`
 
 3. Build the client-side code: **(optional)**
 
-`cd client/`
+`cd client/`  
 `npm run build`
 
 4. Start the server-side code and the client-side code:
 
-`npm start` (at root folder)
-`cd client/`
+`npm start` (at root folder)  
+`cd client/`  
 `npm start`
 
 5. Access the chat application in your browser at http://localhost:3000.
